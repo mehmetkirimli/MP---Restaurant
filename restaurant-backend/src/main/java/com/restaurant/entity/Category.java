@@ -32,6 +32,11 @@ public class Category {
     @JsonInclude(Include.NON_NULL)
     private Product product;
 
+    public Category(String name)
+    {
+          this.name=name;
+    }
+
     //TODO anatasyon kontrolü yapılmalı !
     // Burada yanlış düşündüm sanırım 1 kategoriye ait bir ürün olabilir olarak düşünüp ilerledim.
 }

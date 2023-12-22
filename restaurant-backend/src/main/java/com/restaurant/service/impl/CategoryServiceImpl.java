@@ -28,8 +28,11 @@ public class CategoryServiceImpl implements CategoryService {
         {
             throw new RuntimeException("Category already exists");
         }
-
-        Product product = category.getProduct();
+        Product product = new Product();
+        if(category.getProduct() != null)
+        {
+            product = category.getProduct();
+        }
         product.setId(null);
         return categoryRepository.save(category);
     }
