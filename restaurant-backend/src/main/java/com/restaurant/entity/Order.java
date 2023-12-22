@@ -1,5 +1,6 @@
 package com.restaurant.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -25,19 +26,20 @@ public class Order {
     @Column(name = "ORDER_STATUS")
     private String orderStatus;
 
-    @Column(name = "DELIVERY_ADRESS")
-    private String deliveryAdress;
+    @Column(name = "DELIVERY_ADDRESS")
+    private String deliveryAddress;
 
     @Column(name = "TOTAL_PRICE")
     private BigDecimal totalPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private User customer;
+    private User user;
 
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
-    @JoinTable(name = "order_entries", joinColumns = {@JoinColumn(name = "order_id")}, inverseJoinColumns = {@JoinColumn(name = "entry_id")})
-    private List<OrderEntry> entries = new ArrayList<>();
+    @OneToMany(mappedBy = "order")
+    @JsonBackReference
+    private List<OrderEntry> orderEntryList ;
 
+    //TODO @jsonbackreference ?? bu anatasyona gerek var mı bilmiyorum Mustafaya sormalıyım.
 
 }
