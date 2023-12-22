@@ -9,7 +9,6 @@ import com.restaurant.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-
 import java.math.BigDecimal;
 import java.util.Collections;
 

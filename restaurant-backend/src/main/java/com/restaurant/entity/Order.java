@@ -1,74 +1,45 @@
 package com.restaurant.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "ORDER")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true,nullable = false)
     private Long id;
+
+    @Column(name = "ORDER_STATUS")
     private String orderStatus;
-    private String deliveryAdress;
+
+    @Column(name = "DELIVERY_ADDRESS")
+    private String deliveryAddress;
+
+    @Column(name = "TOTAL_PRICE")
     private BigDecimal totalPrice;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "p_orders", joinColumns = {@JoinColumn(name = "order_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
-    private User customer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
-    @JoinTable(name = "order_entries", joinColumns = {@JoinColumn(name = "order_id")}, inverseJoinColumns = {@JoinColumn(name = "entry_id")})
-    private List<OrderEntry> entries = new ArrayList<>();
+    @OneToMany(mappedBy = "order")
+    @JsonBackReference
+    private List<OrderEntry> orderEntryList ;
 
-    public Long getId() {
-        return id;
-    }
+    //TODO @jsonbackreference ?? bu anatasyona gerek var mı bilmiyorum Mustafaya sormalıyım.
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public String getDeliveryAdress() {
-        return deliveryAdress;
-    }
-
-    public void setDeliveryAdress(String deliveryAdress) {
-        this.deliveryAdress = deliveryAdress;
-    }
-
-    public User getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(User customer) {
-        this.customer = customer;
-    }
-
-    public List<OrderEntry> getEntries() {
-        return entries;
-    }
-
-    public void setEntries(List<OrderEntry> entries) {
-        this.entries = entries;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
 }
