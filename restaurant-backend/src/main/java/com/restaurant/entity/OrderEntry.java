@@ -3,59 +3,35 @@ package com.restaurant.entity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Table
+@Table(name = "ORDER_ENTRY")
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true,nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
+    @Column(name = "QUANTITY")
     private Integer quantity;
+
+    @Column(name = "TOTAL_PRICE")
     private BigDecimal totalPrice;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_ID")
+    private Product product;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn(name ="ORDER_ID" )
+    private Order order;
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public OrderEntry() {
-    }
-
-    public OrderEntry(Product product, Integer quantity, BigDecimal totalPrice) {
-        this.product = product;
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
-    }
 }
