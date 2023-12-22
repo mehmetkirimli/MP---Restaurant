@@ -11,7 +11,6 @@ import com.restaurant.service.CartService;
 import com.restaurant.service.OrderService;
 import com.restaurant.service.UserService;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,25 +42,25 @@ public class OrderServiceImpl implements OrderService {
             throw new RuntimeException("Cart not found");
         }
 
-        if (cart.getEntries() == null) {
+        if (cart.getOrderEntryList() == null) {
             throw new RuntimeException("Cart is empty");
         }
 
         Order order = new Order();
         order.setTotalPrice(cart.getTotalPrice());
         order.setOrderStatus("PLACED");
-        order.setCustomer(user);
-        order.setDeliveryAdress(user.getAddress());
+        order.setUser(user);
+        order.setDeliveryAddress(user.getAddress());
 
         List<OrderEntry> entries = new ArrayList<>();
         BigDecimal totalPrice = BigDecimal.ZERO;
-        for (OrderEntry entry : cart.getEntries()) {
+        for (OrderEntry entry : cart.getOrderEntryList()) {
             totalPrice.add(entry.getTotalPrice());
             entries.add(new OrderEntry(entry.getProduct(), entry.getQuantity(), entry.getTotalPrice()));
         }
 
 
-        order.setEntries(entries);
+        order.setOrderEntryList(entries);
         orderEntryRepository.saveAll(entries);
         order.setTotalPrice(totalPrice);
         order = orderRepository.save(order);

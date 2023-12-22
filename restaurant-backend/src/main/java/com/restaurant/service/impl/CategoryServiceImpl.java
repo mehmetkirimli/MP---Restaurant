@@ -7,7 +7,6 @@ import com.restaurant.service.CategoryService;
 import com.restaurant.service.ProductService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,24 +22,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category createCategory(Category category) {
-        if (categoryRepository.findByName(category.getName()) != null) {
+    public Category createCategory(Category category) // TODO bu metodda bir şeyler oturmadı kafama. Prodcut olmadan category kaydedilmez gibi bir durum var
+    {
+        if (categoryRepository.findByName(category.getName()) != null)
+        {
             throw new RuntimeException("Category already exists");
         }
-        List<Product> products = new ArrayList<>();
 
-        for (Product product : category.getProducts()) {
-            product.setId(null);
-            products.add(product);
-        }
-        category.setProducts(products);
+        Product product = category.getProduct();
+        product.setId(null);
         return categoryRepository.save(category);
     }
 
     @Override
     public Category getCategoryById(Long id) {
         Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
-        category.setProducts(productService.getAllProductsByCategory(category));
         return category;
     }
 
@@ -48,8 +44,9 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
 
-        for (Category category : categories) {
-            category.setProducts(productService.getAllProductsByCategory(category));
+        for (Category category : categories)
+        {
+            category.setProduct(productService.getProductByCategory(category));
         }
 
         return categories;
@@ -61,7 +58,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category addProductToCategory(Long categoryId, Product product) {
+    public Category addProductToCategory(Long categoryId, Product product)
+    {
         Category category = getCategoryById(categoryId);
         if (category == null) {
             throw new RuntimeException("Category not found");
@@ -74,8 +72,10 @@ public class CategoryServiceImpl implements CategoryService {
             product.setCategory(category);
             product = productService.createProduct(product);
         }
-        category.setProducts(productService.getAllProductsByCategory(category));
-        if (CollectionUtils.isEmpty(category.getProducts())) {
+        category.setProduct(productService.getProductByCategory(category));
+
+        /*
+        if (CollectionUtils.isEmpty(category.getProduct())) {
             List<Product> products = new ArrayList<>();
             products.add(product);
             category.setProducts(products);
@@ -86,6 +86,8 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
         category.setProducts(productService.getAllProductsByCategory(category));
+         */
+        //TODO Burada yorum satırına aldığım yerler patlayabilir test kısmında
         return category;
     }
 }

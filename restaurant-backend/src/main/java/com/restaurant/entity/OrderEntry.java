@@ -38,4 +38,10 @@ public class OrderEntry {
     @JoinColumn(name = "CART_ID")
     private Cart cart;
 
+    public OrderEntry(Product product, int i, BigDecimal price)
+    {
+        this.product=product;
+        this.quantity=i;
+        this.totalPrice=price;
+    }
 }

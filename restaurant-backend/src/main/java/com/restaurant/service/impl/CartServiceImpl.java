@@ -10,7 +10,6 @@ import com.restaurant.service.CartService;
 import com.restaurant.service.ProductService;
 import com.restaurant.service.UserService;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class CartServiceImpl implements CartService {
         }
 
         List<OrderEntry> entries = new ArrayList<>();
-        for (OrderEntry orderEntry : cart.getEntries()) {
+        for (OrderEntry orderEntry : cart.getOrderEntryList()) {
             Product product = orderEntry.getProduct();
             if (product == null) {
                 throw new RuntimeException("Cart cant be created because product does not exist");
@@ -50,8 +49,8 @@ public class CartServiceImpl implements CartService {
             entries.add(orderEntry);
         }
 
-        cart.setEntries(entries);
-        cart.setCustomer(user);
+        cart.setOrderEntryList(entries);
+        cart.setUser(user);
         return cartRepository.save(cart);
     }
 
@@ -68,15 +67,16 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart addProductToCart(Long cartId, Long productId) {
         Cart cart = getCartById(cartId);
-        if (cart.getEntries() == null) {
-            cart.setEntries(new ArrayList<>());
+        if (cart.getOrderEntryList() == null) {
+            cart.setOrderEntryList(new ArrayList<>());
         }
 
         Product product = productService.getProductById(productId);
 
-        OrderEntry entry = cart.getEntries().stream().filter(x -> productId.equals(x.getProduct().getId())).findFirst().orElse(null);
-        if (entry == null) {
-            cart.getEntries().add(new OrderEntry(product, 1, product.getPrice()));
+        OrderEntry entry = cart.getOrderEntryList().stream().filter(x -> productId.equals(x.getProduct().getId())).findFirst().orElse(null);
+        if (entry == null)
+        {
+            cart.getOrderEntryList().add(new OrderEntry(product, 1, product.getPrice()));
             return cartRepository.save(cart);
         }
         entry.setQuantity(entry.getQuantity() + 1);

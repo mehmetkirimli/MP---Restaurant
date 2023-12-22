@@ -33,6 +33,5 @@ public class Category {
     private Product product;
 
     //TODO anatasyon kontrolü yapılmalı !
-
-
+    // Burada yanlış düşündüm sanırım 1 kategoriye ait bir ürün olabilir olarak düşünüp ilerledim.
 }

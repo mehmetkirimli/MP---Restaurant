@@ -4,13 +4,10 @@ import com.restaurant.entity.User;
 import com.restaurant.repository.UserRepository;
 import com.restaurant.service.UserService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-
-
     private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
