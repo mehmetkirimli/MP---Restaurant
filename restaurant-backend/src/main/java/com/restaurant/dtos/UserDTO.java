@@ -1,9 +1,13 @@
 package com.restaurant.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
-public class UserDTO {
-
+@Getter
+@Setter
+public class UserDTO
+{
     @Schema(description = "Full name of the user", example = "John Doe")
     private String name;
 
@@ -12,28 +16,4 @@ public class UserDTO {
 
     @Schema(description = "Home address of the user", example = "123 Main Street, Anytown, USA")
     private String address;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }

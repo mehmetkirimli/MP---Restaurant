@@ -1,9 +1,12 @@
 package com.restaurant.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class CategoryProductDTO {
 
     @Schema(description = "ID of the product", required = true, example = "null")
@@ -17,38 +20,4 @@ public class CategoryProductDTO {
 
     @Schema(description = "Price of the product", example = "9.99", required = true)
     private BigDecimal price;
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

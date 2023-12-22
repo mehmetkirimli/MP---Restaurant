@@ -6,7 +6,6 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class CategoryDTO {
@@ -16,6 +15,5 @@ public class CategoryDTO {
 
     @ArraySchema(schema = @Schema(description = "List of products in this category", implementation = CategoryProductDTO.class))
     private List<CategoryProductDTO> products;
-
 }
 
